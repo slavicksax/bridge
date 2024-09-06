@@ -16,6 +16,8 @@ import creator_pub
 import io
 from googletrans import Translator
 import datetime
+from zipfile import ZipFile
+import os
 
 
 
@@ -121,16 +123,18 @@ def getzip(message):
     zip_rest = 'rest_path.zip'  
     with ZipFile(zip_rest, "w") as nz:
         for root, dirs, files in os.walk(rest_path):
-            file_path = os.path.join(root, file_name)
-            nz.write(file_path) 
+            for file_name in files:
+                file_path = os.path.join(root, file_name)
+                nz.write(file_path) 
     f = open(zip_rest, 'rb')
     bot.send_document(message.from_user.id, f)
 
     zip_pub = 'pub_path.zip'  
     with ZipFile(zip_rest, "w") as nz:
         for root, dirs, files in os.walk(rest_pub):
-            file_path = os.path.join(root, file_name)
-            nz.write(file_path) 
+            for file_name in files:
+                file_path = os.path.join(root, file_name)
+                nz.write(file_path) 
     f = open(zip_pub, 'rb')
     bot.send_document(message.from_user.id, f)
     
